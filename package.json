@@ -1,5 +1,5 @@
 {
-  "name": "hll-playgroud",
+  "name": "hll-playground",
   "version": "0.0.1",
   "description": "Visualize Redis HyperLogLog with Node.js",
   "main": "index.js",
