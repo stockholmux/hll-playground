@@ -1,0 +1,83 @@
+<!doctype html>
+<html ng-app="hllPlayground"> <!--ng-app tells Angular to hand over control to the `hllPlayground` module-->
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script> <!-- include the angular library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.2/Chart.min.js"></script> <!-- include the Chart.js library -->
+    <script src="angular-chart.min.js"></script> <!-- Angular directives for the Chart.js libarary -->
+    <script src="hllplayground.js"></script> <!-- Our script -->
+    <link 
+      rel="stylesheet" 
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
+      crossorigin="anonymous"
+    > <!-- include Bootstrap CSS -->
+  </head>
+  <body ng-controller="PlaygroundCtrl"> <!-- This is the controller for the view -->
+    <div class="container">
+      <h1>HyperLogLog / Node / Redis Playground</h1>
+      <div class="row">
+        <div class="col-sm-6">
+          <canvas 
+            class="chart chart-line" 
+            chart-data="countHistory"
+            chart-labels="countLabels"
+            chart-series="countSeries"
+            chart-options="countOptions"></canvas> <!-- Line chart markup. `countHistory`, `countLabels`, `countSeries` and `countOptions` are all `$scope` variables defined in hllplayground.js-->
+        </div>
+        <div class="col-sm-6">
+          <canvas class="chart-horizontal-bar"
+            chart-data="chartData" chart-labels="labels" chart-series="series" > <!-- Bar chart markup. `chartData`, `labels` and `series` are `$scope` variables defined in hllPlayground -->
+          </canvas>
+        </div>
+      </div>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Count</th>
+            <th>Data Length</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>HyperLogLog</td>
+            <td ng-class="{ 'text-danger' : (hllCount !== setCount) }">{{hllCount}}</td> <!-- if `$scope.hllCount` does not equal `$scope.setCount` then we add the HTML class 'text-danger' to this element, turning it red -->
+            <td>{{hllLength}}</td> <!-- interpolate `$scope.hllLength` -->
+          </tr>
+          <tr>
+            <td>Set</td>
+            <td>{{setCount}}</td> <!-- interploate `$scope.setCount` -->
+            <td>{{setByteSize}}</td> <!-- interpolate `$scope.setByteSize` -->
+          </tr>
+        </tbody>
+      </table>
+
+      <form>
+        <div class="form-group">
+          <label for="aStringInput">Any string</label>
+          <input type="text" class="form-control" placeholder="Anything, long or short" ng-model="aString"> <!-- the value of this text input will `$scope.aString` in `hllPlayground.js` -->
+        </div>
+        <button 
+          type="submit" 
+          class="btn btn-primary" 
+          ng-click="send()"
+          ng-disabled="!aString"
+        >Submit</button> <!-- when this button is clicked, the `$scope.send()` is run. If `$scope.aString` evaluates to false, then disable the button -->
+        <button
+          class="btn btn-info" 
+          ng-click="random()"
+        >Random</button> <!-- when this this button is clicked, then run the `$scope.random() ` function. -->
+        <button
+          class="btn btn-danger"
+          ng-click="reset()"
+        >Reset All Data</button> <!-- the `$scope.reset()` function is run when this button is clicked -->
+      </form>
+      <div class="well">
+        <div ng-repeat="aHistoryObj in history"> <!-- `history` is an array. In the child element `aHistoryObj` will be a single element in history -->
+          <strong>{{aHistoryObj.action}}</strong> {{aHistoryObj.subject}} <!-- interpolate `aHistoryObj.action` and `aHistoryObj.subject` -->
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

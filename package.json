@@ -1,0 +1,18 @@
+{
+  "name": "hll-playgroud",
+  "version": "0.0.1",
+  "description": "Visualize Redis HyperLogLog with Node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kyle J. Davis",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "redis": "^2.6.2",
+    "rk": "^1.0.0",
+    "yargs": "^5.0.0"
+  }
+}
