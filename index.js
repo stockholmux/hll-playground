@@ -38,7 +38,7 @@ function storageInfo(incrby,cb) {               //`incrby` can either be the num
   infoMulti
     .pfcount(keys.hll)                          //Get the number of unique items in the HyperLogLog
     .strlen(keys.hll)                           //Get the length of the HyperLogLog string - normally it would be 12k, but Redis automatically run-length encodes it, so in practice it will be much smaller for many HLLs
-    .scard(keys.set)                            //Get the number of unique items in the set
+    .scard(keys.set);                           //Get the number of unique items in the set
 
   if (incrby) {
     infoMulti.incrby(keys.setByteSize,incrby);  //If `incrby` was passed as an agrument, the run the Redis incrby command. Incrby returns the new value.
